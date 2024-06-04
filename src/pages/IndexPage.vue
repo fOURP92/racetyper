@@ -67,9 +67,29 @@ function appendLetter(event: KeyboardEvent) {
   userWord.value += event.key;
 }
 
-function getLetterColor(letterIndex: number) {
-  console.log(letterIndex);
+function init() {
+  words.value = [
+    'word',
+    'word',
+    'word',
+    'word',
+    'word',
+    'word',
+    'word',
+    'word',
+    'word',
+    'word',
+  ];
+  userIndex.value = 0;
+  userWord.value = '';
 }
+
+const getLetterColor = computed<string>(() => {
+  if (words.value[0][userIndex.value] === lastLetterTyped.value) {
+    return 'correct';
+  }
+  return 'wrong';
+});
 </script>
 
 <style scoped>
