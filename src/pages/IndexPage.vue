@@ -1,15 +1,16 @@
 <template>
-  <div class="container column" style="border: 2px solid black">
-    <div class="row justify-center" style="font-size: 50px">
-      {{ userWord }}
+  <div class="container">
+    <div class="row justify-center" style="font-size: 25px; height: 5vh">
+      *{{ userWord }}*
     </div>
 
+    <div class="row justify-center items-center">
     <div
       style="
-        height: 70vh;
-        width: 200vh;
+          width: 80%;
         background-color: #e1b382;
         border-radius: 5px;
+          height: 70vh;
       "
       class="q-my-xl q-mx-xl shadow-12"
     >
@@ -18,19 +19,18 @@
           v-for="(word, wordsIndex) in words"
           :key="wordsIndex"
           class="q-mx-sm"
+            :style="wordsIndex === 0 ? 'color:black' : ''"
           style="color: grey"
-          :style="wordsIndex === 0 ? 'color:black' : ''"
+            :class="getWordColor"
         >
-          <span
-            v-for="(letter, letterIndex) in word"
-            :key="letterIndex"
-            :class="getLetterColor"
-          >
+            <span v-for="(letter, letterIndex) in word" :key="letterIndex">
             {{ letter }}
           </span>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="row justify-center">
       <q-btn
         label="Restart"
