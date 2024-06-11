@@ -49,14 +49,24 @@ import { useTextStore } from 'src/stores/textStore';
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 const store = useTextStore();
+
+//declare variables
+
+//words = the text/words generated for the race
 const words = ref<Array<string>>([...store.getText]);
+//userWord = the current string with what user types
 const userWord = ref<string>('');
+//
 const userIndex = ref<number>(0);
+//
 const previousWords = ref<Array<string>>([]);
+//lastLetterTyped self-explanatory
 const lastLetterTyped = ref<string>('');
+//correctWords/wrongWords = keep count of correct and wrong words typed, after user pressed "SPACE"
 const correctWords = ref<number>(0);
 const wrongWords = ref<number>(0);
 
+//add the listener on mount and remove on unmount
 onMounted(() => {
   window.addEventListener('keydown', appendLetter);
   init();
@@ -66,18 +76,19 @@ onUnmounted(() => {
 });
 
 function appendLetter(event: KeyboardEvent) {
-  const isAlphaRegex = /^[A-Za-z]$/;
   if (event.key === 'Delete' || event.key === 'Backspace') {
     userWord.value = userWord.value.slice(0, userWord.value.length - 1);
     return;
   }
 
+  const isAlphaRegex = /^[A-Za-z]$/;
+  //check if last key pressed is a valid en-US printable char. i.e "abcdefg..." and not "CTRL", "ALT" etc..
   if (!isAlphaRegex.test(event.key) && event.key !== ' ') {
     return;
   }
-  console.log('gets here?', event.key);
 
   if (event.key === ' ') {
+    //handle "SPACEBAR" action, meaning we have to check word equality
     if (userWord.value.length === 0) {
       //if the word is empty and user presses spacebar nothing happens
       return;
@@ -104,6 +115,7 @@ function appendLetter(event: KeyboardEvent) {
   userWord.value += event.key;
 }
 
+//check if race ended/if word we checked is the last
 function checkEnd() {
   if (words.value.length === 0) {
     alert(
@@ -113,6 +125,7 @@ function checkEnd() {
   }
 }
 
+//init variable values
 function init() {
   correctWords.value = 0;
   wrongWords.value = 0;
@@ -122,6 +135,7 @@ function init() {
   userWord.value = '';
 }
 
+//
 const getWordColor = computed<string>(() => {
   if (words.value[0][userIndex.value] === lastLetterTyped.value) {
     return 'correct';
