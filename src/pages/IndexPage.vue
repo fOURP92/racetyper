@@ -78,11 +78,18 @@ function appendLetter(event: KeyboardEvent) {
   console.log('gets here?', event.key);
 
   if (event.key === ' ') {
+    if (userWord.value.length === 0) {
+      //if the word is empty and user presses spacebar nothing happens
+      return;
+    }
     //logic to check if userWord === words.value[0]?
+
     let wordToCheck = words.value.shift();
+
     if (!wordToCheck) {
       return;
     }
+
     previousWords.value.push(wordToCheck);
 
     //compare user type vs current word
